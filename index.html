@@ -11,6 +11,8 @@
             margin: 20px auto;
             padding: 20px;
             background-color: #f0f2f5;
+            position: relative;
+            min-height: 100vh;
         }
 
         .container {
@@ -23,21 +25,24 @@
         .input-group {
             margin-bottom: 20px;
             display: flex;
-            gap: 10px;
+            gap: 15px;
             flex-wrap: wrap;
         }
 
-        input, button {
+        input {
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
+            width: 120px;
         }
 
         button {
+            padding: 12px 20px;
             background-color: #007bff;
             color: white;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
         }
@@ -55,9 +60,25 @@
             min-height: 100px;
         }
 
-        .highlight {
-            color: #007bff;
-            font-weight: bold;
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+        }
+
+        .number-input {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: auto;
+            margin: 0;
         }
     </style>
 </head>
@@ -66,36 +87,68 @@
         <h1>随机数生成器 🔢</h1>
         
         <div class="input-group">
-            <div>
+            <div class="number-input">
                 <label for="min">最小值：</label>
-                <input type="number" id="min" value="1" min="0">
+                <input type="number" id="min" value="1" min="0" step="1">
             </div>
             
-            <div>
+            <div class="number-input">
                 <label for="max">最大值：</label>
-                <input type="number" id="max" value="9" min="1">
+                <input type="number" id="max" value="9" min="1" step="1">
             </div>
             
-            <div>
+            <div class="number-input">
                 <label for="count">生成个数：</label>
-                <input type="number" id="count" value="1" min="1" max="1000">
+                <input type="number" id="count" value="1" min="1" max="1000" step="1">
             </div>
         </div>
 
-        <button onclick="generateNumbers()">生成随机数 🎲</button>
-        <button onclick="copyNumbers()" style="background-color: #28a745">复制结果 📋</button>
+        <div style="display: flex; gap: 10px;">
+            <button onclick="generateNumbers()">生成随机数 🎲</button>
+            <button onclick="copyNumbers()" style="background-color: #28a745">复制结果 📋</button>
+        </div>
 
         <div id="result"></div>
     </div>
 
+    <div class="copyright">© design by junbang</div>
+
     <script>
+        function validateInputs() {
+            const inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                // 失去焦点时验证输入
+                input.addEventListener('blur', function() {
+                    if (this.value === '' || isNaN(this.value)) {
+                        this.value = this.defaultValue;
+                    }
+                    if (parseInt(this.value) < parseInt(this.min)) {
+                        this.value = this.min;
+                    }
+                    if (parseInt(this.value) > parseInt(this.max)) {
+                        this.value = this.max;
+                    }
+                });
+
+                // 实时验证输入
+                input.addEventListener('input', function() {
+                    if (this.value < this.min) this.value = this.min;
+                    if (this.value > this.max) this.value = this.max;
+                });
+            });
+        }
+
         function generateNumbers() {
-            // 获取输入值
             const min = parseInt(document.getElementById('min').value);
             const max = parseInt(document.getElementById('max').value);
             const count = parseInt(document.getElementById('count').value);
             
-            // 验证输入
+            // 增强输入验证
+            if (isNaN(min) || isNaN(max) || isNaN(count)) {
+                alert("请输入有效的数字！");
+                return;
+            }
+
             if (min > max) {
                 alert("❌ 最小值不能大于最大值");
                 return;
@@ -106,23 +159,21 @@
                 return;
             }
 
-            // 生成随机数
             const numbers = [];
             for (let i = 0; i < count; i++) {
                 numbers.push(Math.floor(Math.random() * (max - min + 1)) + min);
             }
 
-            // 显示结果
             const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = `<span class="highlight">🎉 生成的随机数 (${min}-${max})：</span>\n` 
+            resultDiv.innerHTML = `<span style="color:#007bff; font-weight:bold">🎉 生成的随机数 (${min}-${max})：</span>\n` 
                 + numbers.join(', ') 
                 + `\n\n共生成 ${numbers.length} 个数字`;
         }
 
         function copyNumbers() {
             const text = document.getElementById('result').innerText;
-            if (!text) {
-                alert("请先生成随机数！");
+            if (!text || text.includes("NaN")) {
+                alert("请先生成有效的随机数！");
                 return;
             }
             
@@ -131,13 +182,8 @@
                 .catch(() => alert("复制失败，请手动复制"));
         }
 
-        // 输入验证
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('change', function() {
-                if (this.value < this.min) this.value = this.min;
-                if (this.value > this.max) this.value = this.max;
-            });
-        });
+        // 初始化输入验证
+        validateInputs();
     </script>
 </body>
 </html>
