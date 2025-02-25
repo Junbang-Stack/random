@@ -2,13 +2,16 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>阿瓦隆桌游随机数生成器</title>
     <style>
         :root {
             --primary-color: #2ecc71;
             --secondary-color: #3498db;
             --text-color: #2c3e50;
+              input, button {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         body {
@@ -123,7 +126,7 @@
         <button onclick="generateNumbers()">立即生成</button>
         
         <div id="result"></div>
-        <div class="copyright">©design by 隽邦</div>
+        <div class="copyright">©design by 隽邦    由屈鑫批准制作</div>
     </div>
 <script>
         function generateNumbers() {
@@ -163,6 +166,14 @@
             // 显示结果
             document.getElementById('result').textContent = results.join('\n');
         }
+    </script>
+        <script>
+        // 新增网络状态检测
+        window.addEventListener('online', () => {
+            if(!navigator.onLine) {
+                alert('请检查网络连接');
+            }
+        });
     </script>
 </body>
 </html>
