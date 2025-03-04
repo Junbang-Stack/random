@@ -1,42 +1,59 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="量子随机数生成器 - 专业阿瓦隆桌游助手">
     <title>量子随机生成器</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <canvas id="particleCanvas"></canvas>
+
     <div class="container">
-        <h1 class="neon-text">量子随机生成器</h1>
-        
-        <div class="input-group">
-            <input type="number" id="min" value="1" min="0" class="glow-input">
-            <label for="min">最小值</label>
-        </div>
-        
-        <div class="input-group">
-            <input type="number" id="max" value="9" min="1" class="glow-input">
-            <label for="max">最大值</label>
-        </div>
-        
-        <div class="input-group">
-            <input type="number" id="quantity" value="1" min="1" max="100" class="glow-input">
-            <label for="quantity">生成数量</label>
+        <!-- 控制栏 -->
+        <div class="control-bar">
+            <button class="theme-btn" onclick="toggleTheme()">🌓</button>
+            <button class="share-btn" onclick="shareResult()">🔗</button>
         </div>
 
-        <button class="generate-btn pulse" onclick="generateNumbers()">生成随机数</button>
-        <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+        <!-- 主内容 -->
+        <div class="content-wrapper">
+            <h1 class="quantum-title">⚛量子生成器</h1>
+            
+            <div class="input-group">
+                <div class="input-field">
+                    <label>最小值</label>
+                    <input type="number" id="min" value="1" min="0">
+                </div>
+                <div class="input-field">
+                    <label>最大值</label>
+                    <input type="number" id="max" value="9" min="1">
+                </div>
+                <div class="input-field">
+                    <label>生成数量</label>
+                    <input type="number" id="quantity" value="1" min="1" max="1000">
+                </div>
+            </div>
+
+            <button class="generate-btn" onclick="generateNumbers()">
+                <span class="btn-glow"></span>
+                量子生成
+            </button>
+        </div>
     </div>
 
-    <div id="resultModal" class="modal">
-        <div class="modal-content neon-box">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>生成结果</h2>
-            <div id="results" class="results-grid"></div>
+    <!-- 结果弹窗 -->
+    <div class="result-modal" id="resultModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>生成结果</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="resultOutput"></div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>
