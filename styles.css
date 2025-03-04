@@ -39,16 +39,7 @@ body {
     z-index: 0;
 }
 
-.container {
-    position: relative;
-    z-index: 1;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    max-width: 600px;
-    margin: 0 auto;
-}
+
 
 .control-bar {
     display: flex;
