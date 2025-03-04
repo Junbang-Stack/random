@@ -199,3 +199,33 @@ button {
     word-break: break-word;
 }
 
+.footer {
+    text-align: center;
+    padding: 1.5rem 0;
+    color: var(--text);
+    opacity: 0.7;
+    font-size: 0.9rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 0.7;
+        transform: translateY(0);
+    }
+}
+
+@media (max-height: 600px) {
+    .footer {
+        position: static;
+        padding-top: 2rem;
+    }
+}
