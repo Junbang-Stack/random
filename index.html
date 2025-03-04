@@ -3,104 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>量子随机数生成器</title>
+    <title>量子随机生成器</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1 class="title">⚛️ 量子随机生成器</h1>
+        <h1 class="neon-text">量子随机生成器</h1>
         
         <div class="input-group">
-            <label for="min">最小值：</label>
-            <input type="number" id="min" value="1" min="-9999">
+            <input type="number" id="min" value="1" min="0" class="glow-input">
+            <label for="min">最小值</label>
         </div>
         
         <div class="input-group">
-            <label for="max">最大值：</label>
-            <input type="number" id="max" value="9" min="1">
+            <input type="number" id="max" value="9" min="1" class="glow-input">
+            <label for="max">最大值</label>
         </div>
         
         <div class="input-group">
-            <label for="quantity">生成数量：</label>
-            <input type="number" id="quantity" value="1" min="1" max="100">
+            <input type="number" id="quantity" value="1" min="1" max="100" class="glow-input">
+            <label for="quantity">生成数量</label>
         </div>
 
-        <button class="generate-btn" onclick="generateNumbers()">生成随机数</button>
-        
-        <div class="result-modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>🔮 生成结果</h2>
-                <div id="results"></div>
-            </div>
-        </div>
-        
-        <div class="theme-switch">
-            <label class="switch">
-                <input type="checkbox" onchange="toggleTheme()">
-                <span class="slider"></span>
-            </label>
-        </div>
-        
-        <footer class="copyright">
-            © 2023 Quantum RNG | 基于ANU量子随机数接口
-        </footer>
+        <button class="generate-btn pulse" onclick="generateNumbers()">生成随机数</button>
+        <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
     </div>
 
-    <script>
-        // 量子随机数API接口
-        async function getQuantumRandomNumbers(min, max, count) {
-            const apiUrl = `https://qrng.anu.edu.au/API/jsonI.php?length=${count}&type=uint16`;
-            
-            try {
-                const response = await fetch(apiUrl);
-                const data = await response.json();
-                return data.data.map(num => min + (num % (max - min + 1)));
-            } catch (error) {
-                console.error('量子接口错误，使用本地随机数:', error);
-                return Array.from({length: count}, () => 
-                    Math.floor(Math.random() * (max - min + 1)) + min
-                );
-            }
-        }
+    <div id="resultModal" class="modal">
+        <div class="modal-content neon-box">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>生成结果</h2>
+            <div id="results" class="results-grid"></div>
+        </div>
+    </div>
 
-        async function generateNumbers() {
-            const min = parseInt(document.getElementById('min').value) || 1;
-            const max = parseInt(document.getElementById('max').value) || 9;
-            const quantity = parseInt(document.getElementById('quantity').value) || 1;
-            
-            if (min > max) {
-                alert("最小值不能大于最大值！");
-                return;
-            }
-
-            const results = await getQuantumRandomNumbers(min, max, quantity);
-            showResults(results);
-        }
-
-        function showResults(numbers) {
-            const modal = document.querySelector('.result-modal');
-            const resultsDiv = document.getElementById('results');
-            
-            resultsDiv.innerHTML = numbers.map(num => 
-                `<div class="result-number">${num}</div>`
-            ).join('');
-            
-            modal.style.display = 'block';
-            setTimeout(() => modal.classList.add('show'), 10);
-        }
-
-        function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
-        }
-
-        // 关闭弹窗
-        document.querySelector('.close').addEventListener('click', () => {
-            document.querySelector('.result-modal').classList.remove('show');
-            setTimeout(() => {
-                document.querySelector('.result-modal').style.display = 'none';
-            }, 300);
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
