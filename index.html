@@ -1,51 +1,56 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="description" content="专业级阿瓦隆桌游随机数生成器，支持昼夜模式和即时分享">
-    <title>量子随机生成器 | 阿瓦隆助手</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="量子随机数生成器 - 专业阿瓦隆桌游助手">
+    <title>量子随机生成器</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <canvas id="fireworksCanvas"></canvas>
-    
-    <div class="theme-switch">
-        <button id="themeToggle" class="theme-btn">🌓</button>
-    </div>
+    <canvas id="particleCanvas"></canvas>
 
-    <div class="container-wrapper">
-        <div class="cyber-border">
-            <div class="container">
-                <h1>🎮量子随机生成器</h1>
-                
-                <div class="range-presets">
-                    <button class="preset-btn active" data-min="1" data-max="9" data-qty="1">经典模式</button>
-                    <button class="preset-btn" data-min="1" data-max="15" data-qty="1">扩展模式</button>
-                    <button class="preset-btn" data-min="0" data-max="100" data-qty="5">百数模式</button>
-                </div>
+    <div class="container">
+        <!-- 控制栏 -->
+        <div class="control-bar">
+            <button class="theme-btn" onclick="toggleTheme()">🌓</button>
+            <button class="share-btn" onclick="shareResult()">🔗</button>
+        </div>
 
-                <div class="input-group">
-                    <input type="number" id="min" placeholder="最小值" required>
-                    <input type="number" id="max" placeholder="最大值" required>
-                    <input type="number" id="quantity" placeholder="生成数量" required>
+        <!-- 主内容 -->
+        <div class="content-wrapper">
+            <h1 class="quantum-title">⚛量子生成器</h1>
+            
+            <div class="input-group">
+                <div class="input-field">
+                    <label>最小值</label>
+                    <input type="number" id="min" value="1" min="0">
                 </div>
-
-                <div class="action-buttons">
-                    <button class="generate-btn" onclick="generateNumbers()">生成随机序列</button>
-                    <button class="share-btn" onclick="shareResults()">分享结果</button>
+                <div class="input-field">
+                    <label>最大值</label>
+                    <input type="number" id="max" value="9" min="1">
                 </div>
-                
-                <div class="history-panel" id="history"></div>
+                <div class="input-field">
+                    <label>生成数量</label>
+                    <input type="number" id="quantity" value="1" min="1" max="1000">
+                </div>
             </div>
+
+            <button class="generate-btn" onclick="generateNumbers()">
+                <span class="btn-glow"></span>
+                量子生成
+            </button>
         </div>
     </div>
 
-    <div class="modal" id="resultModal">
+    <!-- 结果弹窗 -->
+    <div class="result-modal" id="resultModal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2>🎉 生成结果</h2>
-            <div class="result-content" id="result"></div>
+            <div class="modal-header">
+                <h2>生成结果</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="resultOutput"></div>
         </div>
     </div>
 
