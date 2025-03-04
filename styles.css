@@ -199,33 +199,27 @@ button {
     word-break: break-word;
 }
 
+/* 修改容器高度设置 */
+.container {
+    position: relative;
+    z-index: 1;
+    height: calc(100vh - 2rem); /* 新增 */
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* 重写页脚样式 */
 .footer {
     text-align: center;
     padding: 1.5rem 0;
     color: var(--text);
     opacity: 0.7;
     font-size: 0.9rem;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    margin-top: auto; /* 关键属性 */
     animation: fadeInUp 0.5s ease-out;
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 0.7;
-        transform: translateY(0);
-    }
-}
-
-@media (max-height: 600px) {
-    .footer {
-        position: static;
-        padding-top: 2rem;
-    }
-}
+/* 移除原媒体查询 */
