@@ -2,171 +2,53 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>阿瓦隆桌游随机数生成器</title>
-    <style>
-        :root {
-            --primary-color: #2ecc71;
-            --secondary-color: #3498db;
-            --text-color: #2c3e50;
-              input, button {
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            max-width: 600px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: #f8f9fa;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .container {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .range-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        label {
-            color: var(--text-color);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        input {
-            padding: 0.8rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
-            outline: none;
-        }
-
-        button {
-            background: var(--primary-color);
-            color: white;
-            padding: 1rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        button:hover {
-            background: #27ae60;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
-        }
-
-        #result {
-            padding: 1.5rem;
-            background: white;
-            border-radius: 8px;
-            font-size: 1.2rem;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .copyright {
-            text-align: center;
-            margin-top: 2rem;
-            color: #95a5a6;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 480px) {
-            .range-group {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="专业级阿瓦隆桌游随机数生成器，支持昼夜模式和即时分享">
+    <title>量子随机生成器 | 阿瓦隆助手</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h2 style="text-align: center; color: var(--text-color); margin-bottom: 2rem;">阿瓦隆桌游随机数生成器</h2>
+    <canvas id="fireworksCanvas"></canvas>
     
-    <div class="container">
-        <div class="range-group">
-            <div class="form-group">
-                <label>最小值（0-1000）</label>
-                <input type="number" id="min" value="1" min="0" max="1000">
-            </div>
-            <div class="form-group">
-                <label>最大值（0-1001）</label>
-                <input type="number" id="max" value="9" min="0" max="1001">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>生成数量</label>
-            <input type="number" id="quantity" value="1" min="1" max="1000">
-        </div>
-
-        <button onclick="generateNumbers()">立即生成</button>
-        
-        <div id="result"></div>
-        <div class="copyright">©design by 隽邦</div>
+    <div class="theme-switch">
+        <button id="themeToggle" class="theme-btn">🌓</button>
     </div>
-<script>
-        function generateNumbers() {
-            // 获取输入值
-            const quantity = parseInt(document.getElementById('quantity').value);
-            const min = parseInt(document.getElementById('min').value);
-            const max = parseInt(document.getElementById('max').value);
 
-            // 输入验证[1,4](@ref)
-            if (isNaN(quantity) || quantity < 1 || quantity > 1000) {
-                alert('生成数量需为1-1000的整数');
-                return;
-            }
-            
-            if (isNaN(min) || min < 0 || min > 1000) {
-                alert('最小值范围0-1000');
-                return;
-            }
-            
-            if (isNaN(max) || max < 0 || max > 1001) {
-                alert('最大值范围0-1001');
-                return;
-            }
-            
-            if (min >= max) {
-                alert('最小值必须小于最大值');
-                return;
-            }
+    <div class="container-wrapper">
+        <div class="cyber-border">
+            <div class="container">
+                <h1>🎮量子随机生成器</h1>
+                
+                <div class="range-presets">
+                    <button class="preset-btn active" data-min="1" data-max="9" data-qty="1">经典模式</button>
+                    <button class="preset-btn" data-min="1" data-max="15" data-qty="1">扩展模式</button>
+                    <button class="preset-btn" data-min="0" data-max="100" data-qty="5">百数模式</button>
+                </div>
 
-            // 生成随机数[4,7](@ref)
-            let results = [];
-            for(let i = 0; i < quantity; i++) {
-                const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
-                results.push(randomNum);
-            }
+                <div class="input-group">
+                    <input type="number" id="min" placeholder="最小值" required>
+                    <input type="number" id="max" placeholder="最大值" required>
+                    <input type="number" id="quantity" placeholder="生成数量" required>
+                </div>
 
-            // 显示结果
-            document.getElementById('result').textContent = results.join('\n');
-        }
-    </script>
-  
+                <div class="action-buttons">
+                    <button class="generate-btn" onclick="generateNumbers()">生成随机序列</button>
+                    <button class="share-btn" onclick="shareResults()">分享结果</button>
+                </div>
+                
+                <div class="history-panel" id="history"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2>🎉 生成结果</h2>
+            <div class="result-content" id="result"></div>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
 </body>
 </html>
