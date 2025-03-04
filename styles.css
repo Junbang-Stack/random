@@ -1,0 +1,144 @@
+:root {
+    --primary: #00e6ff;
+    --secondary: #6c5ce7;
+    --bg: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
+    --text: #2c3e50;
+    --glass: rgba(255, 255, 255, 0.9);
+    --shadow: 0 8px 32px rgba(0, 92, 255, 0.1);
+}
+
+[data-theme="dark"] {
+    --primary: #7f5af0;
+    --secondary: #2cb67d;
+    --bg: linear-gradient(135deg, #16161a 0%, #242629 100%);
+    --text: #fffffe;
+    --glass: rgba(22, 22, 26, 0.9);
+    --shadow: 0 8px 32px rgba(108, 92, 231, 0.1);
+}
+
+body {
+    font-family: 'PingFang SC', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    margin: 0;
+    padding: 1rem;
+    transition: background 0.3s ease;
+}
+
+.container-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.cyber-border {
+    background: var(--glass);
+    border-radius: 15px;
+    padding: 2px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+    margin: 1rem 0;
+}
+
+.container {
+    padding: 2rem;
+    border-radius: 13px;
+    position: relative;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid rgba(0, 230, 255, 0.3);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 230, 255, 0.2);
+    outline: none;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.generate-btn, .share-btn {
+    width: 100%;
+    padding: 1.2rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.generate-btn {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+}
+
+.share-btn {
+    background: rgba(108, 92, 231, 0.1);
+    border: 2px solid var(--secondary);
+    color: var(--secondary);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--glass);
+    padding: 2rem;
+    border-radius: 15px;
+    max-width: 90%;
+    animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+    from { transform: translate(-50%, 100%); }
+    to { transform: translate(-50%, -50%); }
+}
+
+.result-content {
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 1rem 0;
+    word-break: break-word;
+}
+
+/* 其他样式保持完整... */
