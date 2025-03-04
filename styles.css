@@ -1,222 +1,148 @@
 :root {
-    --primary-color: #00ff9d;
-    --bg-color: #f0f3f5;
-    --text-color: #2c3e50;
-    --input-bg: #ffffff;
-    --border-color: #e0e0e0;
-    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --transition: all 0.3s ease;
+    --bg-color: #1a1a2e;
+    --text-color: #e6e6fa;
+    --accent-color: #4ecca3;
+    --modal-bg: rgba(26, 26, 46, 0.95);
+    --input-bg: rgba(255, 255, 255, 0.1);
 }
 
-.dark-theme {
-    --primary-color: #00ff9d;
-    --bg-color: #1a1a1a;
-    --text-color: #ffffff;
-    --input-bg: #2d2d2d;
-    --border-color: #404040;
-    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+[data-theme="dark"] {
+    --bg-color: #e6e6fa;
+    --text-color: #1a1a2e;
+    --modal-bg: rgba(230, 230, 250, 0.95);
+    --input-bg: rgba(26, 26, 46, 0.1);
 }
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    transition: var(--transition);
+    transition: all 0.3s ease;
 }
 
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     background: var(--bg-color);
     color: var(--text-color);
-    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
-    position: fixed;
-    width: 100%;
-    height: 100%;
 }
 
 .container {
-    max-width: 600px;
-    margin: 0 auto;
+    text-align: center;
     padding: 20px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    max-width: 400px;
+    width: 90%;
 }
 
-.title {
+.neon-text {
     font-size: 2.5rem;
-    margin-bottom: 2rem;
-    text-shadow: 0 0 10px var(--primary-color);
-    animation: glow 2s infinite alternate;
+    text-shadow: 0 0 10px var(--accent-color);
+    margin-bottom: 30px;
+    animation: float 3s ease-in-out infinite;
 }
 
 .input-group {
-    width: 100%;
-    margin: 10px 0;
-    max-width: 300px;
+    margin: 15px 0;
+    position: relative;
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-}
-
-input[type="number"] {
+.glow-input {
     width: 100%;
     padding: 12px;
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
     background: var(--input-bg);
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
     color: var(--text-color);
-    font-size: 1rem;
+    font-size: 1.1rem;
+    backdrop-filter: blur(5px);
 }
 
-input:focus {
-    border-color: var(--primary-color);
+.glow-input:focus {
     outline: none;
-    box-shadow: 0 0 8px var(--primary-color);
+    box-shadow: 0 0 15px var(--accent-color);
 }
 
 .generate-btn {
-    background: linear-gradient(135deg, var(--primary-color), #00b894);
-    color: #fff;
+    background: linear-gradient(45deg, #4ecca3, #45b08c);
     border: none;
     padding: 15px 30px;
+    color: white;
     border-radius: 25px;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     cursor: pointer;
     margin-top: 20px;
-    box-shadow: var(--box-shadow);
-    transition: transform 0.2s;
+    width: 100%;
+    box-shadow: 0 0 15px rgba(78, 204, 163, 0.5);
 }
 
-.generate-btn:active {
-    transform: scale(0.95);
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--accent-color);
 }
 
-.result-modal {
+.modal {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
     justify-content: center;
     align-items: center;
+    backdrop-filter: blur(5px);
 }
 
 .modal-content {
-    background: var(--bg-color);
-    padding: 25px;
+    background: var(--modal-bg);
+    padding: 20px;
     border-radius: 15px;
-    text-align: center;
-    transform: scale(0);
-    max-width: 90%;
-    box-shadow: 0 0 20px var(--primary-color);
-}
-
-.modal-content.show {
-    transform: scale(1);
-}
-
-.result-number {
-    font-size: 2.5rem;
-    margin: 15px 0;
-    color: var(--primary-color);
-    text-shadow: 0 0 10px var(--primary-color);
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 2rem;
-    cursor: pointer;
-}
-
-.theme-switch {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-}
-
-.switch {
+    width: 80%;
+    max-width: 400px;
     position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
+    animation: scaleUp 0.3s ease-out;
 }
 
-.switch input {
-    opacity: 0;
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
 }
 
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #ccc;
-    transition: .4s;
-    border-radius: 34px;
+.results-grid span {
+    background: var(--accent-color);
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: var(--bg-color);
 }
 
-.slider:before {
-    content: "🌙";
-    position: absolute;
-    left: 4px;
-    bottom: 4px;
-    width: 26px;
-    height: 26px;
-    line-height: 26px;
-    text-align: center;
-    background: white;
-    border-radius: 50%;
-    transition: .4s;
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 
-input:checked + .slider {
-    background: var(--primary-color);
-}
-
-input:checked + .slider:before {
-    content: "☀️";
-    transform: translateX(26px);
-}
-
-.copyright {
-    position: fixed;
-    bottom: 10px;
-    font-size: 0.9rem;
-    opacity: 0.7;
-}
-
-@keyframes glow {
-    from {
-        text-shadow: 0 0 5px var(--primary-color);
-    }
-    to {
-        text-shadow: 0 0 20px var(--primary-color);
-    }
+@keyframes scaleUp {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding: 15px;
+    .glow-input {
+        font-size: 1rem;
     }
-    
-    input[type="number"] {
-        padding: 10px;
-    }
-    
-    .generate-btn {
-        padding: 12px 25px;
+    .neon-text {
+        font-size: 2rem;
     }
 }
