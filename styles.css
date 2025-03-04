@@ -45,9 +45,12 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    padding: 1rem 1rem 3rem;
+    padding: 1rem;
     max-width: 600px;
     margin: 0 auto;
+    /* 新增修复属性 */
+    min-height: -webkit-fill-available; /* 兼容移动端浏览器 */
+    flex-shrink: 0; /* 防止容器压缩 */
 }
 
 .control-bar {
@@ -67,11 +70,12 @@ button {
 }
 
 .content-wrapper {
-    flex: 1;
+    flex: 1 0 auto; /* 关键调整 */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-bottom: 20vh;
+    padding-bottom: 1rem;
+    overflow-y: auto; /* 允许内容滚动 */
 }
 
 .quantum-title {
@@ -198,7 +202,6 @@ button {
     text-align: center;
     word-break: break-word;
 }
-/* 添加在文件末尾 */
 .site-footer {
     text-align: center;
     padding: 1.5rem 1rem;
@@ -206,6 +209,11 @@ button {
     opacity: 0.8;
     font-size: 0.9rem;
     border-top: 1px solid rgba(var(--primary), 0.1);
-    margin-top: auto; /* 利用flex布局自动间距 */
+    margin-top: auto;
     backdrop-filter: blur(5px);
+    flex-shrink: 0; /* 防止页脚压缩 */
+    position: sticky;
+    bottom: 0;
+    background: var(--surface);
+    z-index: 2; /* 确保在粒子层之上 */
 }
